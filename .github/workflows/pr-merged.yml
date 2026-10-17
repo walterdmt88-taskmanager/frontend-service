@@ -13,9 +13,9 @@ permissions:
 
 jobs:
   build:
-    uses: proops2026-taskmanager/proops2026-cicd-platform/.github/workflows/reusable-build.yml@v3.1
+    uses: walterdmt88-taskmanager/proops2026-cicd-platform/.github/workflows/reusable-build.yml@v3.2
     with:
-      project-name: "proops2026-taskmanager"
+      project-name: "walterdmt88-taskmanager"
       service-name: "frontend-service"
       service-port: "3000"
     secrets:
@@ -23,11 +23,11 @@ jobs:
 
   deploy-dev:
     needs: build
-    uses: proops2026-taskmanager/proops2026-cicd-platform/.github/workflows/reusable-deploy.yml@v3
+    uses: walterdmt88-taskmanager/proops2026-cicd-platform/.github/workflows/reusable-deploy.yml@v3
     with:
       image-tag: ${{ needs.build.outputs.image-tag }}
       environment: dev
-      project-name: "proops2026-taskmanager"
+      project-name: "walterdmt88-taskmanager"
       service-name: "frontend-service"
       # no runtime secrets — VITE_API_BASE_URL is baked in at Docker build time
     secrets:
@@ -35,22 +35,22 @@ jobs:
 
   deploy-staging:
     needs: [build, deploy-dev]   # gated by dev — same image-tag, no rebuild
-    uses: proops2026-taskmanager/proops2026-cicd-platform/.github/workflows/reusable-deploy.yml@v3
+    uses: walterdmt88-taskmanager/proops2026-cicd-platform/.github/workflows/reusable-deploy.yml@v3
     with:
       image-tag: ${{ needs.build.outputs.image-tag }}
       environment: staging
-      project-name: "proops2026-taskmanager"
+      project-name: "walterdmt88-taskmanager"
       service-name: "frontend-service"
     secrets:
       GHCR_PAT: ${{ secrets.GHCR_PAT }}
 
   deploy-prod:
     needs: [build, deploy-staging]   # gated by staging — same image-tag, no rebuild
-    uses: proops2026-taskmanager/proops2026-cicd-platform/.github/workflows/reusable-deploy.yml@v3
+    uses: walterdmt88-taskmanager/proops2026-cicd-platform/.github/workflows/reusable-deploy.yml@v3
     with:
       image-tag: ${{ needs.build.outputs.image-tag }}
       environment: prod   # required reviewers on this GitHub Environment pause the run for approval
-      project-name: "proops2026-taskmanager"
+      project-name: "walterdmt88-taskmanager"
       service-name: "frontend-service"
     secrets:
       GHCR_PAT: ${{ secrets.GHCR_PAT }}

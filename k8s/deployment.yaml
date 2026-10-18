@@ -18,7 +18,7 @@ spec:
         - name: ghcr-pull-secret
       containers:
         - name: frontend-service
-          image: ghcr.io/proops2026-taskmanager/frontend-service:latest
+          image: ghcr.io/walterdmt88-taskmanager/frontend-service:latest
           ports:
             - containerPort: 3000
           resources:
